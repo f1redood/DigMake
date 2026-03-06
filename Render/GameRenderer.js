@@ -14,8 +14,8 @@ export default class GameRenderer {
     gl.bindBuffer(gl.ARRAY_BUFFER, vao);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pool.verts), gl.STATIC_DRAW);
     
-    var vbo = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vbo);
+    var ebo = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(pool.inds), gl.STATIC_DRAW);
     
     var vert = `#version 300 es
