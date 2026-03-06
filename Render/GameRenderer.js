@@ -21,14 +21,14 @@ export default class GameRenderer {
     var vert = `#version 300 es
     precision mediump float;
     
-    layout(location = 0) in vec2 aPos;
+    layout(location = 0) in vec3 aPos;
     layout(location = 1) in vec2 aCoords;
     
     out vec2 uv;
     
     void main() {
       uv = aCoords;
-      gl_Position = vec4(aPos, 0, 1);
+      gl_Position = vec4(aPos, aPos.z);
     }`;
     
     var vertShader = gl.createShader(gl.VERTEX_SHADER);
@@ -68,7 +68,7 @@ export default class GameRenderer {
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(
       0, // Index
-      2, // Size
+      3, // Size
       gl.FLOAT, // Type
       false, // Normalized
       16, // Stride
