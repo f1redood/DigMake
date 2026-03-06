@@ -1,9 +1,12 @@
+import Model from "https://f1redood.github.io/DigMake/Render/Model/Model.js";
+
 /**
  * Create the world mesh
  *
  * @param {object} The Dictionary the world data is stored in
+ * @param {ModelPool} The ModelPool to store the model to
  */
-export default function createMesh(dict) {
+export default function createMesh(dict, pool) {
   var verts = [];
   var inds = [];
   var uvs = [];
@@ -53,5 +56,7 @@ export default function createMesh(dict) {
 
       idx += 4;
     }
-  }
+
+    pool.add(new Model(verts, inds, uvs));
+  } 
 }
