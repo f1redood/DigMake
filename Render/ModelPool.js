@@ -1,3 +1,5 @@
+import Model from "https://f1redood.github.io/DigMake/Model.js";
+
 export default class ModelPool {
   verts = [];
   inds = [];
