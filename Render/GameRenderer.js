@@ -7,16 +7,16 @@ export default class GameRenderer {
   }
   
   render(pool) {
-    gl.clearColor(0.1, 0.1, 0.1, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    this.gl.clearColor(0.1, 0.1, 0.1, 1);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     
-    var vao = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vao);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pool.verts), gl.STATIC_DRAW);
+    var vao = this.gl.createBuffer();
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vao);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(pool.verts), this.gl.STATIC_DRAW);
     
-    var ebo = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(pool.inds), gl.STATIC_DRAW);
+    var ebo = this.gl.createBuffer();
+    this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, ebo);
+    this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(pool.inds), this.gl.STATIC_DRAW);
     
     var vert = `#version 300 es
     precision mediump float;
@@ -31,9 +31,9 @@ export default class GameRenderer {
       gl_Position = vec4(aPos, aPos.z);
     }`;
     
-    var vertShader = gl.createShader(gl.VERTEX_SHADER);
-    gl.shaderSource(vertShader, vert);
-    gl.compileShader(vertShader);
+    var vertShader = this.gl.createShader(this.gl.VERTEX_SHADER);
+    this.gl.shaderSource(vertShader, vert);
+    this.gl.compileShader(vertShader);
     
     var frag = `#version 300 es
     precision mediump float;
@@ -46,40 +46,40 @@ export default class GameRenderer {
       fragColor = texture(tex, uv);
     }`;
     
-    var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
-    gl.shaderSource(fragShader, frag);
-    gl.compileShader(fragShader);
+    var fragShader = this.gl.createShader(this.gl.FRAGMENT_SHADER);
+    this.gl.shaderSource(fragShader, frag);
+    this.gl.compileShader(fragShader);
     
-    var shader = gl.createProgram();
-    gl.attachShader(shader, vertShader);
-    gl.attachShader(shader, fragShader);
-    gl.linkProgram(shader);
+    var shader = this.gl.createProgram();
+    this.gl.attachShader(shader, vertShader);
+    this.gl.attachShader(shader, fragShader);
+    this.gl.linkProgram(shader);
     
     // Output merger
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
     
     // Rasterizer
-    gl.viewport(0, 0, canvas.width, canvas.height);
+    this.gl.viewport(0, 0, canvas.width, canvas.height);
     
     // Set GPU program
-    gl.useProgram(shader);
+    this.gl.useProgram(shader);
     
-    gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(
+    this.gl.enableVertexAttribArray(0);
+    this.gl.vertexAttribPointer(
       0, // Index
       3, // Size
-      gl.FLOAT, // Type
+      this.gl.FLOAT, // Type
       false, // Normalized
       16, // Stride
       0 // Offset
     );
     
-    gl.enableVertexAttribArray(1);
-    gl.vertexAttribPointer(
+    this.gl.enableVertexAttribArray(1);
+    this.gl.vertexAttribPointer(
       1,
       2,
-      gl.FLOAT,   
+      this.gl.FLOAT,   
       false,      
       16,
       8
@@ -90,18 +90,18 @@ export default class GameRenderer {
     img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSskDxJt4QJCvLLZXBra36gheJ85AyalYK0iw&s";
     img.onload = () => {
       // Setup texture
-      var tex = gl.createTexture();
-      gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      var tex = this.gl.createTexture();
+      this.gl.bindTexture(this.gl.TEXTURE_2D, tex);
+      this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, img);
       
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.NEAREST);
+      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
+      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
+      this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
   
       // Draw call
-      //gl.drawArrays(gl.TRIANGLES, 0, 3);
-      gl.drawElements(gl.TRIANGLES, inds.length, gl.UNSIGNED_SHORT, 0);
+      //this.gl.drawArrays(this.gl.TRIANGLES, 0, 3);
+      this.gl.drawElements(this.gl.TRIANGLES, inds.length, this.gl.UNSIGNED_SHORT, 0);
     };
   }
 }
